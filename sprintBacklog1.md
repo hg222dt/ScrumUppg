@@ -3,7 +3,7 @@ Sprint Backlog 1
 
 Objective
 ---------
-Att skapa en grundläggande funktionalitet för att kunna spara nya medlemmar och tillhörande egenskaper, i ett register, samt att ladda redan spaarade medlemmar vid programstart.
+Att skapa en grundläggande funktionalitet för att kunna spara nya medlemmar och tillhörande egenskaper, i ett register, samt att ladda redan sparade medlemmar vid programstart.
 
 
 Länk till Google Docs-fil innehållande Sprint backlog 1 samt tillhörande Burndown Chart:
