@@ -17,6 +17,13 @@ namespace ScrumUppgift
             int i;
             List<Member> members = new List<Member>();
 
+            OpenAllFromFile(members);
+
+            if (members.Count > 0)
+            {
+                memberCounter = members[members.Count - 1]._memberNumber;
+            }
+
             do
             {
                 Member member, fetchedMember;
@@ -114,11 +121,80 @@ namespace ScrumUppgift
         //Ska öppna textdokumentet och läsa in all data, och därefter lägga detta i objekt som i sin tur läggs i lista i korrekt ordning.
 
 
+        public static void OpenAllFromFile(List<Member> members)
+        {
+            string line;
+            int choser = 5;
+            int lastMemberNumber = 0;
+            int counter = 0;
 
+            try
+            {
+                using (StreamReader reader = new StreamReader("members.txt"))
+                {
+                    do
+                    {
+                        line = reader.ReadLine();
+                        
+                        if(line == "[Medlem]") {
+                            members.Add(new Member());
+                            counter++;
+                        }
+                     
+                        if (line == "[Förnamn]")
+                        {
+                            choser = 0;
+                        }
+
+                        else if (line == "[Efternamn]")
+                        {
+                            choser = 1;
+                        }
+
+                        else if (line == "[Telefonnummer]")
+                        {
+                            choser = 2;
+                        }
+
+                        else if (line == "[Medlemsnummer]")
+                        {
+                            choser = 3;
+                        }
+
+
+                        if (choser == 0 && line != "[Förnamn]")
+                        {
+                            members[counter-1]._firstName = line;
+                            choser = 5;
+                        }
+
+                        else if (choser == 1 && line != "[Efternamn]")
+                        {
+                            members[counter-1]._lastName = line;
+                            choser = 5;
+                        }
+
+                        else if (choser == 2 && line != "[Telefonnummer]")
+                        {
+                            members[counter-1]._phoneNumber = int.Parse(line);
+                            choser = 5;
+                        }
+
+                        else if (choser == 3 && line != "[Medlemsnummer]")
+                        {
+                            members[counter-1]._memberNumber = int.Parse(line);
+                            //lastMemberNumber = int.Parse(line);
+                            choser = 5;
+                        }
+
+                    } while (line != null);
+
+                }
+            }
+            catch
+            {
+                Console.WriteLine("Nu blev något fel med inläsningen!");
+            }
+        }
     }
 }
-
-
-//Gör så att det sparas till textfil
-//Gör så att det öppnas från textfil automatiskt
-//Gör så att det räknaren förstår att den ska börja efter sista medlemsnummret
