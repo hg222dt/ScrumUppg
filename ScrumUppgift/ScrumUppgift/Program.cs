@@ -27,8 +27,9 @@ namespace ScrumUppgift
             do
             {
                 Member member, fetchedMember;
-                Console.WriteLine("1. Skapa ny medlem.");
-                Console.WriteLine("2. Ladda alla medlemmar.");
+                Console.WriteLine("1. Skapa ny medlem");
+                Console.WriteLine("2. Ladda medlem");
+                Console.WriteLine("3. Redigera medlem");
                 Console.WriteLine("\n0. Avsluta.");
 
                 Console.Write("Välj alternativ: ");
@@ -45,16 +46,71 @@ namespace ScrumUppgift
 
                 if (i == 2)
                 {
-                    Console.Write("Skriv in medlemsnummer för önskad medlem: ");
+                    if (members.Count > 0)
+                    {
+                        Console.Write("Skriv in medlemsnummer för önskad medlem: ");
+                        int v = int.Parse(Console.ReadLine());
+
+                        fetchedMember = getMember(members, v);
+
+                        Console.WriteLine("Förnamnet på medlem är: {0}", fetchedMember._firstName);
+                        Console.WriteLine("Efternamnet på medlem är: {0}", fetchedMember._lastName);
+                        Console.WriteLine("Telefonnummret till medlem är: {0}", fetchedMember._phoneNumber);
+                        Console.WriteLine("Medlemsnumret är: {0}", fetchedMember._memberNumber);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Det finns inga medlemmar i registret.");
+                    }
+
+                }
+                if (i == 3)
+                {
+                    string loop = "j";
+                    Console.Write("Ange medlemsnummer[1 - {0}]: ", memberCounter);
                     int v = int.Parse(Console.ReadLine());
+                    int r;
 
                     fetchedMember = getMember(members, v);
 
-                    Console.WriteLine("Förnamnet på medlem är: {0}", fetchedMember._firstName);
-                    Console.WriteLine("Efternamnet på medlem är: {0}", fetchedMember._lastName);
-                    Console.WriteLine("Telefonnummret till medlem är: {0}", fetchedMember._phoneNumber);
-                    Console.WriteLine("Medlemsnumret är: {0}", fetchedMember._memberNumber);
+                    do
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine("1. Förnamn: {0}", fetchedMember._firstName);
+                        Console.WriteLine("2. Efternamn: {0}", fetchedMember._lastName);
+                        Console.WriteLine("3. Telefonnummer: {0}", fetchedMember._phoneNumber);
+                        Console.WriteLine("4. Medlemsnummer: {0}", fetchedMember._memberNumber);
 
+                        Console.WriteLine();
+                        Console.Write("Välj vilken data du vill redigera [1 - 3, 0 = avbryt]: ");
+                        r = int.Parse(Console.ReadLine());
+                        Console.WriteLine();
+
+                        switch (r)
+                        {
+                            case 1:
+                                Console.Write("Ange nytt förnamn: ");
+                                fetchedMember._firstName = Console.ReadLine();
+                                break;
+
+                            case 2:
+                                Console.Write("Ange nytt efternamn: ");
+                                fetchedMember._lastName = Console.ReadLine();
+                                break;
+
+                            case 3:
+                                Console.Write("Ange nytt telefonnummer: ");
+                                fetchedMember._phoneNumber = int.Parse(Console.ReadLine());
+                                break;
+                        }
+                        if (r != 0)
+                        {
+                            SaveAllToFile(members);
+                            Console.WriteLine();
+                            Console.WriteLine("Ändring sparad. Göra fler förändringar? [j/n]: ");
+                            loop = Console.ReadLine();
+                        }
+                    } while (loop == "j" && r != 0);
                 }
 
             } while (i != 0);
