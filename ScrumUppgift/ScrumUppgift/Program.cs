@@ -14,8 +14,9 @@ namespace ScrumUppgift
         static void Main(string[] args)
         {
             int memberCounter = 0;
-            int i;
+            int i = 6;
             List<Member> members = new List<Member>();
+            bool errInput = false;
 
             OpenAllFromFile(members);
 
@@ -26,7 +27,7 @@ namespace ScrumUppgift
 
             do
             {
-                Member member, fetchedMember;
+                Member member;
                 Console.Clear();
                 Console.WriteLine("================");
                 Console.WriteLine("Medlemsregister!");
@@ -42,7 +43,27 @@ namespace ScrumUppgift
                 Console.WriteLine();
                 Console.WriteLine();
                 Console.Write("Välj alternativ: ");
-                i = int.Parse(Console.ReadLine());
+                do{
+                    errInput = false;
+                    try
+                    {
+                        i = int.Parse(Console.ReadLine());
+                        if(i < 0 || i > 5){
+                            errInput = true;
+                        }
+                    }
+                    catch(ArgumentException)
+                    {
+                        errInput = true;
+                    }
+
+                    if(errInput){
+                        Console.WriteLine();
+                        Console.Write("Ett heltal mellan 0 - 5 måste matas in. Ange nytt heltal: ");
+                    }
+                }while(errInput);
+
+
                 Console.WriteLine();
 
                 if (i == 1)
@@ -79,16 +100,10 @@ namespace ScrumUppgift
 
                         if (v != 0)
                         {
-                            fetchedMember = getMember(members, v);
-                            Console.WriteLine();
-                            Console.WriteLine("Förnamn: {0}", fetchedMember._firstName);
-                            Console.WriteLine("Efternamn: {0}", fetchedMember._lastName);
-                            Console.WriteLine("Telefonnummer: {0}", fetchedMember._phoneNumber);
-                            Console.WriteLine("Medlemsnummer: {0}", fetchedMember._memberNumber);
-                            Console.WriteLine();
-                            Console.WriteLine("Tryck tangent för att återgå...");
-                            Console.ReadLine();
+                            getMember(members, v, false);
                         }
+                        Console.WriteLine("Tryck valfri tangent för att återgå...");
+                        Console.ReadLine();
                     }
                     else
                     {
@@ -103,15 +118,11 @@ namespace ScrumUppgift
                         Console.Clear();
                         Console.WriteLine("Medlemsregister! Visa alla medlemmar.");
                         Console.WriteLine();
+                        int count = 1;
                         foreach (Member memberShow in members)
                         {
-                            Console.WriteLine();
-                            Console.WriteLine("------------");
-                            Console.WriteLine("Förnamn: " + memberShow._firstName);
-                            Console.WriteLine("Efternamn: " + memberShow._lastName);
-                            Console.WriteLine("Telefonnummer: " + memberShow._phoneNumber);
-                            Console.WriteLine("Medlemsnummer: " + memberShow._memberNumber);
-                            Console.WriteLine();
+                            getMember(members, count, false);
+                            count++;
                         }
                     }
                     else
@@ -140,13 +151,8 @@ namespace ScrumUppgift
                     {
                         if (v != 0)
                         {
-                            fetchedMember = getMember(members, v);
-                            Console.WriteLine();
-                            Console.WriteLine("1. Förnamn: {0}", fetchedMember._firstName);
-                            Console.WriteLine("2. Efternamn: {0}", fetchedMember._lastName);
-                            Console.WriteLine("3. Telefonnummer: {0}", fetchedMember._phoneNumber);
-                            Console.WriteLine("4. Medlemsnummer: {0}", fetchedMember._memberNumber);
-
+                            getMember(members, v, true);
+                            
                             Console.WriteLine();
                             Console.Write("Välj vilken data du vill redigera [1 - 3, Avbryt: 0]: ");
                             r = int.Parse(Console.ReadLine());
@@ -156,17 +162,32 @@ namespace ScrumUppgift
                             {
                                 case 1:
                                     Console.Write("Ange nytt förnamn: ");
-                                    fetchedMember._firstName = Console.ReadLine();
+                                    members[v-1]._firstName = Console.ReadLine();
                                     break;
 
                                 case 2:
                                     Console.Write("Ange nytt efternamn: ");
-                                    fetchedMember._lastName = Console.ReadLine();
+                                    members[v-1]._lastName = Console.ReadLine();
                                     break;
 
                                 case 3:
                                     Console.Write("Ange nytt telefonnummer: ");
-                                    fetchedMember._phoneNumber = int.Parse(Console.ReadLine());
+                                    
+                                    bool t = false;
+                                    do
+                                    {
+                                        t = false;
+                                        try
+                                        {
+                                            members[v-1]._phoneNumber = int.Parse(Console.ReadLine());
+                                        }
+                                        catch (Exception)
+                                        {
+                                            Console.Write("Bara heltal kan skrivas in som telefonnummer. Ange korrekt telfonnummer: ");
+                                            t = true;
+                                        }
+                                    } while (t == true);
+
                                     break;
                             }
                             if (r != 0)
@@ -178,7 +199,7 @@ namespace ScrumUppgift
                                 Console.Clear();
                             }
                         }
-                    } while (loop == "j" && r != 0 && v != 0);
+                    } while ((loop == "j" || loop =="J") && r != 0 && v != 0);
                 }
                 if (i == 5)
                 {
@@ -190,29 +211,22 @@ namespace ScrumUppgift
 
                     string loop = "";
                     int v;
+                    string r = "n";
 
                     do
                     {
                         Console.Write("Ange medlemsnummer[1 - {0}, Avbryt: 0]: ", members.Count);
                         v = int.Parse(Console.ReadLine());
-                        string r;
 
                         if (v != 0)
                         {
-                            fetchedMember = getMember(members, v);
-
-                            Console.WriteLine();
-                            Console.WriteLine("Förnamn: {0}", fetchedMember._firstName);
-                            Console.WriteLine("Efternamn: {0}", fetchedMember._lastName);
-                            Console.WriteLine("Telefonnummer: {0}", fetchedMember._phoneNumber);
-                            Console.WriteLine("Medlemsnummer: {0}", fetchedMember._memberNumber);
-                            Console.WriteLine();
+                            getMember(members, v, false);
+                            
                             Console.Write("Vill du verkligen radera denna medlem [j/n]: ");
-
                             r = Console.ReadLine();
                             Console.WriteLine();
 
-                            if (r == "j")
+                            if (r == "j" || r =="J")
                             {
                                 members.RemoveAt(v - 1);
                                 Console.WriteLine();
@@ -221,7 +235,7 @@ namespace ScrumUppgift
                                 SaveAllToFile(members);
                             }
                         }
-                    } while (loop == "j" && v != 0);
+                    } while ((loop == "j" || loop == "J") && v != 0 && (r == "j" || r == "J"));
                 }
             } while (i != 0);
         }
@@ -229,6 +243,7 @@ namespace ScrumUppgift
         public static Member createNewMember(int memberCounter)
         {
             Member member = new Member();
+            int phoneNumber = 0;
 
             Console.Write("Mata in förnamn: ");
             string firstName = Console.ReadLine();
@@ -237,7 +252,21 @@ namespace ScrumUppgift
             string lastName = Console.ReadLine();
 
             Console.Write("Mata in Telefonnummer: ");
-            int phoneNumber = int.Parse(Console.ReadLine());
+
+            bool t = false;
+            do
+            {
+                t = false;
+                try
+                {
+                    phoneNumber = int.Parse(Console.ReadLine());
+                }
+                catch (Exception)
+                {
+                    Console.Write("Bara heltal kan skrivas in som telefonnummer. Ange korrekt telfonnummer: ");
+                    t = true;
+                }
+            } while (t);
 
             member._firstName = firstName;
             member._lastName = lastName;
@@ -247,11 +276,19 @@ namespace ScrumUppgift
             return member;
         }
 
-        public static Member getMember(List<Member> members, int memberNumber)
+        public static void getMember(List<Member> members, int memberNumber, bool hideMemberNumber)
         {
             Member member = members[memberNumber - 1];
 
-            return member;
+            Console.WriteLine();
+            Console.WriteLine("Förnamn: {0}", member._firstName);
+            Console.WriteLine("Efternamn: {0}", member._lastName);
+            Console.WriteLine("Telefonnummer: {0}", member._phoneNumber);
+            if (!hideMemberNumber)
+            {
+                Console.WriteLine("Medlemsnummer: {0}", member._memberNumber);
+            }
+            Console.WriteLine();
         }
 
         public static void SaveAllToFile(List<Member> members)
@@ -291,7 +328,6 @@ namespace ScrumUppgift
         {
             string line;
             int choser = 5;
-            int lastMemberNumber = 0;
             int counter = 0;
 
             try
