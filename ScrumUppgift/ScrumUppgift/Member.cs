@@ -16,6 +16,7 @@ namespace ScrumUppgift
 
         private int memberNumber;
 
+        //Egenskap för medlems förnamn
         public string _firstName
         {
             get 
@@ -29,6 +30,7 @@ namespace ScrumUppgift
             }
         }
 
+        //Egenskap för medlems efternamn
         public string _lastName
         {
             get
@@ -42,6 +44,7 @@ namespace ScrumUppgift
             }
         }
 
+        //Egenskap för medlems telefonnummer
         public int _phoneNumber
         {
             get
@@ -55,6 +58,7 @@ namespace ScrumUppgift
             }
         }
 
+        //Egenskap för medlems medlemsnummer
         public int _memberNumber
         {
             get
