@@ -1,2 +1,3 @@
 Sprint review 3
 =========
+I den sista sprinten har den slutgiltiga funktionaliteten lagts till. Nu hadelade det om att kunna visa alla medlemmar i medlemsregistret, på en och samma gång. Detta med förde ytterligare ett litet arbete med UI, för att få allt att tydligt visas korrekt för användaren. I koden har även en hel del kommentering gjorts för att göra koden mer läsbar. Felhantering har även lagt till vid inmatning, så att programmet klarar av att hantera händelser av att användaren exempelvis matar in heltal som inte befinner sig inom rätt intervall i menyerna, eller om något annat än heltal matas in som telefonnummer.
