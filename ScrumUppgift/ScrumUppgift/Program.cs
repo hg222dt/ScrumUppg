@@ -27,39 +27,66 @@ namespace ScrumUppgift
             do
             {
                 Member member, fetchedMember;
+                Console.Clear();
+                Console.WriteLine("================");
+                Console.WriteLine("Medlemsregister!");
+                Console.WriteLine("================");
+                Console.WriteLine();
                 Console.WriteLine("1. Skapa ny medlem");
-                Console.WriteLine("2. Ladda medlem");
+                Console.WriteLine("2. Visa medlem");
                 Console.WriteLine("3. Redigera medlem");
                 Console.WriteLine("4. Radera medlem");
                 Console.WriteLine();
-                Console.WriteLine("\n0. Avsluta.");
-
+                Console.WriteLine("0. Avsluta");
+                Console.WriteLine();
+                Console.WriteLine();
                 Console.Write("Välj alternativ: ");
                 i = int.Parse(Console.ReadLine());
+                Console.WriteLine();
 
                 if (i == 1)
                 {
+                    Console.Clear();
+                    Console.WriteLine("================");
+                    Console.WriteLine("Lägg till ny medlem");
+                    Console.WriteLine("================");
+                    Console.WriteLine();
+
                     memberCounter++;
                     member = createNewMember(memberCounter);
                     members.Add(member);
                   
                     SaveAllToFile(members);
+
+                    Console.WriteLine();
+                    Console.WriteLine("Medlem sparad! Tryck valfri tangent för att återgå...");
+                    Console.ReadLine();
                 }
 
                 if (i == 2)
                 {
                     if (members.Count > 0)
                     {
-                        Console.Write("Skriv in medlemsnummer för önskad medlem [1 - {0}, Avbryt: 0]: ", memberCounter);
+                        Console.Clear();
+                        Console.WriteLine("================");
+                        Console.WriteLine("Visa medlem!");
+                        Console.WriteLine("================");
+                        Console.WriteLine();
+
+                        Console.Write("Skriv in medlemsnummer för önskad medlem [1 - {0}, Avbryt: 0]: ", members.Count);
                         int v = int.Parse(Console.ReadLine());
 
                         if (v != 0)
                         {
                             fetchedMember = getMember(members, v);
-                            Console.WriteLine("Förnamnet på medlem är: {0}", fetchedMember._firstName);
-                            Console.WriteLine("Efternamnet på medlem är: {0}", fetchedMember._lastName);
-                            Console.WriteLine("Telefonnummret till medlem är: {0}", fetchedMember._phoneNumber);
-                            Console.WriteLine("Medlemsnumret är: {0}", fetchedMember._memberNumber);
+                            Console.WriteLine();
+                            Console.WriteLine("Förnamn: {0}", fetchedMember._firstName);
+                            Console.WriteLine("Efternamn: {0}", fetchedMember._lastName);
+                            Console.WriteLine("Telefonnummer: {0}", fetchedMember._phoneNumber);
+                            Console.WriteLine("Medlemsnummer: {0}", fetchedMember._memberNumber);
+                            Console.WriteLine();
+                            Console.WriteLine("Tryck tangent för att återgå...");
+                            Console.ReadLine();
                         }
                     }
                     else
@@ -70,8 +97,14 @@ namespace ScrumUppgift
                 }
                 if (i == 3)
                 {
+                    Console.Clear();
+                    Console.WriteLine("================");
+                    Console.WriteLine("Redigera medlem!");
+                    Console.WriteLine("================");
+                    Console.WriteLine();
+
                     string loop = "j";
-                    Console.Write("Ange medlemsnummer[1 - {0}, Avbryt: 0]: ", memberCounter);
+                    Console.Write("Ange medlemsnummer[1 - {0}, Avbryt: 0]: ", members.Count);
                     int v = int.Parse(Console.ReadLine());
                     int r = 0;
 
@@ -114,18 +147,25 @@ namespace ScrumUppgift
                                 Console.WriteLine();
                                 Console.WriteLine("Ändring sparad. Göra fler förändringar? [j/n]: ");
                                 loop = Console.ReadLine();
+                                Console.Clear();
                             }
                         }
                     } while (loop == "j" && r != 0 && v != 0);
                 }
                 if (i == 4)
                 {
+                    Console.Clear();
+                    Console.WriteLine("================");
+                    Console.WriteLine("Radera medlem!");
+                    Console.WriteLine("================");
+                    Console.WriteLine();
+
                     string loop = "";
                     int v;
 
                     do
                     {
-                        Console.Write("Ange medlemsnummer[1 - {0}, Avbryt: 0]: ", memberCounter);
+                        Console.Write("Ange medlemsnummer[1 - {0}, Avbryt: 0]: ", members.Count);
                         v = int.Parse(Console.ReadLine());
                         string r;
 
@@ -147,12 +187,13 @@ namespace ScrumUppgift
                             if (r == "j")
                             {
                                 members.RemoveAt(v - 1);
+                                Console.WriteLine();
                                 Console.Write("Medlem raderad. Radera fler medlemmar? [j/n]: ");
                                 loop = Console.ReadLine();
                                 SaveAllToFile(members);
                             }
                         }
-                    } while (loop == "j" || v != 0);
+                    } while (loop == "j" && v != 0);
                 }
 
             } while (i != 0);
@@ -162,13 +203,13 @@ namespace ScrumUppgift
         {
             Member member = new Member();
 
-            Console.WriteLine("Mata in förnamn: ");
+            Console.Write("Mata in förnamn: ");
             string firstName = Console.ReadLine();
 
-            Console.WriteLine("Mata in efternamn: ");
+            Console.Write("Mata in efternamn: ");
             string lastName = Console.ReadLine();
 
-            Console.WriteLine("Mata in Telefonnummer: ");
+            Console.Write("Mata in Telefonnummer: ");
             int phoneNumber = int.Parse(Console.ReadLine());
 
             member._firstName = firstName;
@@ -297,4 +338,4 @@ namespace ScrumUppgift
     }
 }
 
-//Gör så att 1a alternativet går att avbryta.
+//Gör så att det går att komma ur radera eller redigera-loopen
