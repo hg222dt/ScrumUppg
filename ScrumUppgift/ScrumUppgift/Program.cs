@@ -34,8 +34,9 @@ namespace ScrumUppgift
                 Console.WriteLine();
                 Console.WriteLine("1. Skapa ny medlem");
                 Console.WriteLine("2. Visa medlem");
-                Console.WriteLine("3. Redigera medlem");
-                Console.WriteLine("4. Radera medlem");
+                Console.WriteLine("3. Visa alla medlemmar");
+                Console.WriteLine("4. Redigera medlem");
+                Console.WriteLine("5. Radera medlem");
                 Console.WriteLine();
                 Console.WriteLine("0. Avsluta");
                 Console.WriteLine();
@@ -93,9 +94,36 @@ namespace ScrumUppgift
                     {
                         Console.WriteLine("Det finns inga medlemmar i registret.");
                     }
-
                 }
+
                 if (i == 3)
+                {
+                    if (members.Count > 0)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Medlemsregister! Visa alla medlemmar.");
+                        Console.WriteLine();
+                        foreach (Member memberShow in members)
+                        {
+                            Console.WriteLine();
+                            Console.WriteLine("------------");
+                            Console.WriteLine("Förnamn: " + memberShow._firstName);
+                            Console.WriteLine("Efternamn: " + memberShow._lastName);
+                            Console.WriteLine("Telefonnummer: " + memberShow._phoneNumber);
+                            Console.WriteLine("Medlemsnummer: " + memberShow._memberNumber);
+                            Console.WriteLine();
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Det finns tyvärr inga medlemmar i registret.");
+                    }
+
+                    Console.WriteLine("Tryck valfri tangent för att återgå...");
+                    Console.ReadLine();
+                }
+
+                if (i == 4)
                 {
                     Console.Clear();
                     Console.WriteLine("================");
@@ -152,7 +180,7 @@ namespace ScrumUppgift
                         }
                     } while (loop == "j" && r != 0 && v != 0);
                 }
-                if (i == 4)
+                if (i == 5)
                 {
                     Console.Clear();
                     Console.WriteLine("================");
@@ -195,7 +223,6 @@ namespace ScrumUppgift
                         }
                     } while (loop == "j" && v != 0);
                 }
-
             } while (i != 0);
         }
 
@@ -338,4 +365,9 @@ namespace ScrumUppgift
     }
 }
 
+
+
+
+
 //Gör så att det går att komma ur radera eller redigera-loopen
+//Fixa så att medlemsnummret anpassar sig efter plats i medlems-array
